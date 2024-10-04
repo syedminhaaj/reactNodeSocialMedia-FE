@@ -7,26 +7,26 @@ export default function PostCommentInput(props) {
   const [showComments, setShowComments] = useState(false);
   const [allComments, setAllComments] = useState([]);
 
-  const getComments = () => {
+  const getComments = async () => {
     if (!showComments) {
-      console.log("you've to get all Comments here ******");
-
       const url = `http://localhost:3002/comment/getId/${postId}`;
-      axios.get(url).then((res) => {
-        console.log("res", res);
+      await axios.get(url).then((res) => {
+        setAllComments(res.data.comments);
       });
     }
     setShowComments((prev) => !prev);
   };
-  const handleSendComment = () => {
+  const handleSendComment = async () => {
     const commentData = {
       post_id: postId,
       comment_desc: comment,
-      username: "test",
     };
 
     try {
-      axios.post("http://localhost:3002/comment", commentData);
+      await axios.post("http://localhost:3002/comment", commentData, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      });
+      getComments();
     } catch (error) {
       console.error("Error submitting the comment:", error);
     }
@@ -53,7 +53,35 @@ export default function PostCommentInput(props) {
       <button className="btn btn-primary" onClick={getComments} color="primary">
         {showComments ? "Hide Comments" : "Load Comments"}
       </button>
-      {showComments ? <div>show comments here</div> : ""}
+      {showComments ? (
+        <div>
+          {allComments.length > 0 ? (
+            allComments?.map((comment, index) => (
+              <div key={index} className="card mb-3 shadow-sm">
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <h6 className="card-subtitle mb-2 text-muted">
+                        <b>{comment.username}</b>
+                      </h6>
+                      <p className="card-text">{comment.comment_desc}</p>
+                    </div>
+                    <small className="text-muted">
+                      {new Date(comment.created_at).toLocaleString()}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted">
+              No comments yet. Be the first to comment!
+            </p>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

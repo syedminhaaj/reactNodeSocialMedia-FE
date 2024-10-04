@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../helpers/AuthContext";
 function Navbar() {
+  const { authState, setAuthState } = useContext(AuthContext);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,6 +36,20 @@ function Navbar() {
                 Profile (testing)
               </a>
             </li>
+            {!authState && (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="/login">
+                    Login
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/registration">
+                    Registration
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
