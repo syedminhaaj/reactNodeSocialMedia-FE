@@ -2,6 +2,10 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../helpers/AuthContext";
 function Navbar() {
   const { authState, setAuthState } = useContext(AuthContext);
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState({ ...authState, status: false });
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,7 +40,7 @@ function Navbar() {
                 Profile (testing)
               </a>
             </li>
-            {!authState && (
+            {!authState.status ? (
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="/login">
@@ -49,8 +53,15 @@ function Navbar() {
                   </a>
                 </li>
               </>
+            ) : (
+              <li className="nav-item">
+                <a className="nav-link" onClick={logout}>
+                  Logout
+                </a>
+              </li>
             )}
           </ul>
+          <span> {authState.username}</span>
         </div>
       </nav>
     </div>

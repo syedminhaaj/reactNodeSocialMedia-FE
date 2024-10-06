@@ -8,7 +8,6 @@ function Post() {
 
   useEffect(() => {
     axios.get(`http://localhost:3002/post/byId/${id}`).then((res) => {
-      console.log("res 867767", res);
       setPost(res.data.post[0]);
     });
   }, []);

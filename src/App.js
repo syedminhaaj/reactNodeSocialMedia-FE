@@ -11,7 +11,11 @@ import { AuthContext } from "./helpers/AuthContext";
 import axios from "axios";
 
 function App() {
-  const [authState, setAuthState] = useState(false);
+  const [authState, setAuthState] = useState({
+    username: "",
+    id: 0,
+    status: false,
+  });
   useEffect(() => {
     axios
       .get("http://localhost:3002/auth/validate", {
@@ -21,9 +25,13 @@ function App() {
       })
       .then((res) => {
         if (res.data.error) {
-          setAuthState(false);
+          setAuthState({ ...authState, status: false });
         } else {
-          setAuthState(true);
+          setAuthState({
+            username: res.data.username,
+            id: res.data.id,
+            status: true,
+          });
         }
       });
   }, []);

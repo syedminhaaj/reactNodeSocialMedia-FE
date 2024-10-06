@@ -6,3 +6,41 @@
   max-width: 70%;
   min-width: 70%;
 }
+.post-list-container {
+  margin: 20px auto;
+  width: 75%;
+}
+
+.post-card {
+  margin-bottom: 20px;
+  border: 1px solid rgb(165, 30, 30);
+}
+
+.post-card-header {
+  background-color: rgb(92, 72, 181);
+}
+
+.post-text {
+  color: #666;
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.action-btn {
+  text-transform: none;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.comment-box {
+  padding: 15px;
+}

@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { setAuthState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
   const navigation = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,9 +25,14 @@ const Login = () => {
         });
 
       if (!response.data.error) {
-        localStorage.setItem("accessToken", response.data);
+        localStorage.setItem("accessToken", response.data.token);
         setSuccess("Login successful!");
-        setAuthState(true);
+        console.log("reson gtom login ****", response.data);
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
         navigation("/");
         setError("");
       } else {
