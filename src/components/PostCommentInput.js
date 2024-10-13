@@ -1,27 +1,43 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from "../helpers/AuthContext";
+import { setComments } from "../features/commentSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 import "./main.css";
 
 export default function PostCommentInput(props) {
-  const postId = props.postId;
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [allComments, setAllComments] = useState([]);
   const { authState, setAuthState } = useContext(AuthContext);
-
+  const postId = props.postId;
+  const dispatch = useDispatch();
+  const allCommentState = useSelector((state) => state.comment);
+  console.log("allComments of selector---allCommentState", allCommentState);
+  const CommentDataOf = allCommentState[postId];
+  console.log("****", CommentDataOf);
   const getComments = async () => {
     if (!showComments) {
       const url = `http://localhost:3002/comment/getId/${postId}`;
       await axios.get(url).then((res) => {
         setAllComments(res.data.comments);
+        console.log("res.data.comments *****", res.data);
+        const dataP = { postId: postId, commentsArray: res.data.comments };
+        dispatch(setComments(dataP));
       });
     }
     setShowComments((prev) => !prev);
   };
+  // useEffect(() => {
+  //   getComments();
+  // }, []);
+  // if (!!postId && getComments) {
+
+  // }
 
   const handleDeleteComment = async (id) => {
     await axios
@@ -88,8 +104,8 @@ export default function PostCommentInput(props) {
       </button>
       {showComments ? (
         <div>
-          {allComments.length > 0 ? (
-            allComments?.map((comment, index) => (
+          {CommentDataOf?.length > 0 ? (
+            CommentDataOf?.map((comment, index) => (
               <div key={index} className="card mb-3 shadow-sm">
                 <div className="card-body">
                   <div className="d-flex justify-content-between">

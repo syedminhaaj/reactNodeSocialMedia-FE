@@ -1,5 +1,6 @@
-import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import "./App.css";
 import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import Navbar from "./components/Navbar";
@@ -8,6 +9,8 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import { useState, useEffect } from "react";
 import { AuthContext } from "./helpers/AuthContext";
+import { Provider } from "react-redux";
+import store from "./store/store";
 import axios from "axios";
 
 function App() {
@@ -37,18 +40,20 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authState, setAuthState }}>
-        <Navbar />
-        <Router>
-          <Routes>
-            <Route path="/" exact Component={Home} />
-            <Route path="/createpost" Component={CreatePost} />
-            <Route path="/post/:id" Component={Post} />
-            <Route path="/login" Component={Login} />
-            <Route path="/registration" Component={Registration} />
-          </Routes>
-        </Router>
-      </AuthContext.Provider>
+      <Provider store={store}>
+        <AuthContext.Provider value={{ authState, setAuthState }}>
+          <Navbar />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/createpost" element={<CreatePost />} />
+              <Route path="/post/:id" element={<Post />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registration" element={<Registration />} />
+            </Routes>
+          </Router>
+        </AuthContext.Provider>
+      </Provider>
     </div>
   );
 }

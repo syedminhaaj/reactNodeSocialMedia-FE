@@ -16,17 +16,32 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import { AuthContext } from "../helpers/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "../features/postSlice";
 function Home() {
   const [listOfPost, setListOfPost] = useState([]);
   const { authState, setAuthState } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts.posts);
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   axios.get("http://localhost:3002/post").then((res) => {
+  //     console.log("res===>", res);
+  //     setListOfPost(res.data.post);
+  //   });
+  // }, []);
   useEffect(() => {
-    axios.get("http://localhost:3002/post").then((res) => {
-      console.log("res===>", res);
-      setListOfPost(res.data.post);
-    });
-  }, []);
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/post");
+        dispatch(setPosts(response.data.post));
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
 
+    fetchPosts();
+  }, [dispatch]);
   const likedPost = (id) => {
     console.log("authState?.username, ", authState?.username);
     axios
@@ -46,7 +61,7 @@ function Home() {
   };
   return (
     <div className="post-list-container">
-      {listOfPost?.map((val, key) => (
+      {posts?.map((val, key) => (
         <Card key={key} className="post-card">
           <CardHeader
             title={val.title}
@@ -61,7 +76,7 @@ function Home() {
           <div className="post-card-footer">
             {/* Tooltip around Like button */}
             <Tooltip
-              title={val.likedByUsers?.split(",").join(", ") || "No likes yet"}
+              title={val.likedByUsers?.split(",").join(", ") || "No likes yet"} // Show the list of users or default text
               arrow
               placement="top"
             >
