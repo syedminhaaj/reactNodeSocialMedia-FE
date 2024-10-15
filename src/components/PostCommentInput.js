@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from "../helpers/AuthContext";
 import { setComments } from "../features/commentSlice";
 import { useDispatch, useSelector } from "react-redux";
+import BASE from "../config/apiconfig";
 
 import "./main.css";
 
@@ -13,19 +14,17 @@ export default function PostCommentInput(props) {
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [allComments, setAllComments] = useState([]);
-  const { authState, setAuthState } = useContext(AuthContext);
+  //const { authState, setAuthState } = useContext(AuthContext);
   const postId = props.postId;
   const dispatch = useDispatch();
   const allCommentState = useSelector((state) => state.comment);
-  console.log("allComments of selector---allCommentState", allCommentState);
+  const authState = useSelector((state) => state.auth);
   const CommentDataOf = allCommentState[postId];
-  console.log("****", CommentDataOf);
   const getComments = async () => {
     if (!showComments) {
-      const url = `http://localhost:3002/comment/getId/${postId}`;
+      const url = `${BASE.API_DEPLOYED_BASE_URL}/comment/getId/${postId}`;
       await axios.get(url).then((res) => {
         setAllComments(res.data.comments);
-        console.log("res.data.comments *****", res.data);
         const dataP = { postId: postId, commentsArray: res.data.comments };
         dispatch(setComments(dataP));
       });
@@ -41,11 +40,10 @@ export default function PostCommentInput(props) {
 
   const handleDeleteComment = async (id) => {
     await axios
-      .delete(`http://localhost:3002/comment/${id}`, {
+      .delete(`${BASE.API_DEPLOYED_BASE_URL}/comment/${id}`, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((res) => {
-        console.log("res aflter delete", res);
         setAllComments(
           allComments.filter((val) => {
             return val.id == id;
@@ -63,7 +61,7 @@ export default function PostCommentInput(props) {
     };
 
     try {
-      await axios.post("http://localhost:3002/comment", commentData, {
+      await axios.post(`${BASE.API_DEPLOYED_BASE_URL}/comment`, commentData, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       });
       getComments();
@@ -74,7 +72,7 @@ export default function PostCommentInput(props) {
   };
   return (
     <div>
-      {authState.status && (
+      {authState.isAuthenticated && (
         <>
           <div className="input-group mb-3">
             <textarea
@@ -119,7 +117,6 @@ export default function PostCommentInput(props) {
                       {new Date(comment.created_at).toLocaleString()}
                     </small>
                   </div>
-                  {authState.username}-{comment.username} ={comment.comment_id}
                   {authState.username === comment.username && (
                     <div className="d-flex justify-content-end mt-2">
                       <IconButton

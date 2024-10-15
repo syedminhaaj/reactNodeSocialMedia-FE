@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import BASE from "../config/apiconfig";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ const Register = () => {
     try {
       //  const hashedPassword = await bcrypt.hash(password, 10);
 
-      const response = await axios.post("http://localhost:3002/auth", {
+      const response = await axios.post(`${BASE.API_DEPLOYED_BASE_URL}/auth`, {
         username,
         password: password,
       });

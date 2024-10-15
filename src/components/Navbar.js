@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../helpers/AuthContext";
+import { logout as logoutAction } from "../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 function Navbar() {
-  const { authState, setAuthState } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const authStoreState = useSelector((state) => state.auth);
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    setAuthState({ ...authState, status: false });
+    dispatch(logoutAction());
   };
   return (
     <div>
@@ -26,21 +29,21 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <a className="nav-link" href="/">
+              <Link className="nav-link" to="/">
                 View Post
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/createpost">
+              <Link className="nav-link" to="/createpost">
                 Create Post
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="/profile">
                 Profile (testing)
-              </a>
+              </Link>
             </li>
-            {!authState.status ? (
+            {!authStoreState.isAuthenticated ? (
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="/login">
@@ -61,7 +64,7 @@ function Navbar() {
               </li>
             )}
           </ul>
-          <span> {authState.username}</span>
+          <span> {authStoreState.username}</span>
         </div>
       </nav>
     </div>

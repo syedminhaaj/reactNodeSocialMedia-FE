@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import BASE from "../config/apiconfig";
 
 function CreatePost() {
   const [postTitle, setPostTitle] = useState("");
@@ -10,8 +11,6 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Construct the post data
     const postData = {
       title: postTitle,
       postText: postText,
@@ -19,7 +18,10 @@ function CreatePost() {
     };
 
     try {
-      const response = await axios.post("http://localhost:3002/post", postData);
+      const response = await axios.post(
+        `${BASE.API_DEPLOYED_BASE_URL}/post`,
+        postData
+      );
       setPostTitle("");
       setPostText("");
       navigation("/");

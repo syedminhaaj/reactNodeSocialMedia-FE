@@ -1,22 +1,21 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { AuthContext } from "../helpers/AuthContext";
-
+import { useDispatch } from "react-redux";
+import { login } from "../features/authSlice";
+import BASE from "../config/apiconfig";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { authState, setAuthState } = useContext(AuthContext);
   const navigation = useNavigate();
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios
-        .post("http://localhost:3002/auth/login", {
+        .post(`${BASE.API_DEPLOYED_BASE_URL}/auth/login`, {
           username: username,
           password: password,
         })
@@ -25,14 +24,14 @@ const Login = () => {
         });
 
       if (!response.data.error) {
-        localStorage.setItem("accessToken", response.data.token);
         setSuccess("Login successful!");
-        console.log("reson gtom login ****", response.data);
-        setAuthState({
+        const authData = {
           username: response.data.username,
           id: response.data.id,
+          token: response.data.token,
           status: true,
-        });
+        };
+        dispatch(login(authData));
         navigation("/");
         setError("");
       } else {

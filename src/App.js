@@ -6,12 +6,14 @@ import CreatePost from "./components/CreatePost";
 import Navbar from "./components/Navbar";
 import Post from "./components/Post";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 import Registration from "./components/Registration";
 import { useState, useEffect } from "react";
 import { AuthContext } from "./helpers/AuthContext";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import axios from "axios";
+import BASE from "./config/apiconfig";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -21,10 +23,8 @@ function App() {
   });
   useEffect(() => {
     axios
-      .get("http://localhost:3002/auth/validate", {
-        headers: {
-          accessToken: localStorage.getItem("accessToken"),
-        },
+      .get(`${BASE.API_DEPLOYED_BASE_URL}/auth/validate`, {
+        headers: BASE.ACCESSTOKEN_HEADER,
       })
       .then((res) => {
         if (res.data.error) {
@@ -43,15 +43,15 @@ function App() {
       <Provider store={store}>
         <AuthContext.Provider value={{ authState, setAuthState }}>
           <Navbar />
-          <Router>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/createpost" element={<CreatePost />} />
-              <Route path="/post/:id" element={<Post />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registration" element={<Registration />} />
-            </Routes>
-          </Router>
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/createpost" element={<CreatePost />} />
+            <Route path="/post/:id" element={<Post />} />
+            <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+          </Routes>
         </AuthContext.Provider>
       </Provider>
     </div>
