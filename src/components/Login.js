@@ -3,17 +3,20 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../features/authSlice";
+import Loader from "./Loader";
 import BASE from "../config/apiconfig";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios
         .post(`${BASE.API_DEPLOYED_BASE_URL}/auth/login`, {
           username: username,
@@ -40,11 +43,14 @@ const Login = () => {
     } catch (err) {
       setError("Login failed");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container">
+      {loading && <Loader />}
       <div className="row justify-content-center">
         <div className="col-md-6">
           <h2 className="text-center">Login</h2>

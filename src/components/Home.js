@@ -21,17 +21,10 @@ import { setPosts, updateLikeCount } from "../features/postSlice";
 import BASE from "../config/apiconfig";
 function Home() {
   const [listOfPost, setListOfPost] = useState([]);
-  //const { authState, setAuthState } = useContext(AuthContext);
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   axios.get("http://localhost:3002/post").then((res) => {
-  //     console.log("res===>", res);
-  //     setListOfPost(res.data.post);
-  //   });
-  // }, []);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -45,20 +38,22 @@ function Home() {
     fetchPosts();
   }, [dispatch]);
   const likedPost = (id) => {
-    axios
-      .post(
-        `${BASE.API_DEPLOYED_BASE_URL}/likes`,
-        {
-          postId: id,
-          username: authState?.username,
-        },
-        BASE.ACCESSTOKEN_HEADER
-      )
-      .then((res) => {
-        dispatch(
-          updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
-        );
-      });
+    if (authState.username !== "") {
+      axios
+        .post(
+          `${BASE.API_DEPLOYED_BASE_URL}/likes`,
+          {
+            postId: id,
+            username: authState?.username,
+          },
+          BASE.ACCESSTOKEN_HEADER
+        )
+        .then((res) => {
+          dispatch(
+            updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
+          );
+        });
+    }
   };
   return (
     <div className="post-list-container">
