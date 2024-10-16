@@ -7,12 +7,10 @@ import BASE from "../config/apiconfig";
 const Profile = () => {
   const { username } = useParams();
   const authState = useSelector((state) => state.auth);
+  const usernameCheck = username || authState.username;
   const postList = useSelector((state) =>
     state.posts.posts.filter((item) => item.username === username)
   );
-  console.log("authState", authState);
-  console.log("postList****", postList);
-
   const likedPost = (id) => {
     axios
       .post(
@@ -21,23 +19,31 @@ const Profile = () => {
           postId: id,
           username: authState?.username,
         },
-        {
-          headers: { accessToken: localStorage.getItem("accessToken") },
-        }
+        BASE.ACCESSTOKEN_HEADER
       )
       .then((res) => {});
   };
   return (
     <div>
-      <h3>{username} - Profile</h3>
-      {postList?.map((val, key) => (
-        <Post
-          key={key}
-          post={val}
-          authState={authState.isAuthenticated}
-          likedPost={likedPost}
-        />
-      ))}
+      <h3>{usernameCheck} - Profile</h3>
+      {postList.length > 0 ? (
+        postList.map((val, key) => (
+          <Post
+            key={key}
+            post={val}
+            authState={authState.isAuthenticated}
+            likedPost={likedPost}
+          />
+        ))
+      ) : (
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-6 text-center">
+              <div className="alert alert-primary">No posts yet</div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

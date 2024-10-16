@@ -33,16 +33,7 @@ function Navbar() {
                 View Post
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/createpost">
-                Create Post
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Profile (testing)
-              </Link>
-            </li>
+
             {!authStoreState.isAuthenticated ? (
               <>
                 <li className="nav-item">
@@ -57,11 +48,26 @@ function Navbar() {
                 </li>
               </>
             ) : (
-              <li className="nav-item">
-                <a className="nav-link" onClick={logout}>
-                  Logout
-                </a>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/createpost">
+                    Create Post
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    to={`/profile/${authStoreState.username}`}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" onClick={logout}>
+                    Logout
+                  </a>
+                </li>
+              </>
             )}
           </ul>
           <span> {authStoreState.username}</span>

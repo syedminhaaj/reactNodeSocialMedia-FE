@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 import BASE from "../config/apiconfig";
+import Loader from "./Loader";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -8,7 +10,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,27 +22,35 @@ const Register = () => {
 
     try {
       //  const hashedPassword = await bcrypt.hash(password, 10);
-
+      setLoading(true);
       const response = await axios.post(`${BASE.API_DEPLOYED_BASE_URL}/auth`, {
         username,
         password: password,
       });
 
-      if (response.data.success) {
+      console.log("res ****", response.data);
+      if (response.data.message) {
+        setLoading(false);
         setSuccess("Registration successful!");
         setError("");
+        navigation("/login");
       }
     } catch (err) {
       setError("Registration failed");
+      setLoading(false);
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container">
+      {loading && <Loader />}
       <div className="row justify-content-center">
         <div className="col-md-6">
           <h2 className="text-center">Register</h2>
+
           {error && <p className="alert alert-danger">{error}</p>}
           {success && <p className="alert alert-success">{success}</p>}
           <form onSubmit={handleSubmit}>
@@ -73,7 +84,11 @@ const Register = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary btn-block">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary btn-block"
+            >
               Register
             </button>
           </form>
