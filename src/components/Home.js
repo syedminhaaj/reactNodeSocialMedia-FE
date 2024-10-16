@@ -18,8 +18,11 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { AuthContext } from "../helpers/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts, updateLikeCount } from "../features/postSlice";
+import DailogPopup from "./DailogPopup";
+
 import BASE from "../config/apiconfig";
 function Home() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [listOfPost, setListOfPost] = useState([]);
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -37,6 +40,15 @@ function Home() {
 
     fetchPosts();
   }, [dispatch]);
+
+  const showPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   const likedPost = (id) => {
     if (authState.username !== "") {
       axios
@@ -53,6 +65,8 @@ function Home() {
             updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
           );
         });
+    } else {
+      showPopup();
     }
   };
   return (
@@ -64,6 +78,14 @@ function Home() {
           likedPost={likedPost}
         />
       ))}
+      {isPopupOpen && (
+        <DailogPopup
+          message="In order to like, You must Log in"
+          link="/login"
+          buttonText="Redirect to Login"
+          onClose={closePopup}
+        />
+      )}
     </div>
   );
 }

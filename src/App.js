@@ -10,12 +10,14 @@ import Profile from "./components/Profile";
 import Registration from "./components/Registration";
 import { useState, useEffect } from "react";
 import { AuthContext } from "./helpers/AuthContext";
-import { Provider } from "react-redux";
-import store from "./store/store";
+
 import axios from "axios";
 import BASE from "./config/apiconfig";
+import { useDispatch } from "react-redux";
+import { login, logout } from "./features/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
   const [authState, setAuthState] = useState({
     username: "",
     id: 0,
@@ -23,37 +25,36 @@ function App() {
   });
   useEffect(() => {
     axios
-      .get(`${BASE.API_DEPLOYED_BASE_URL}/auth/validate`, {
-        headers: BASE.ACCESSTOKEN_HEADER,
-      })
+      .get(
+        `${BASE.API_DEPLOYED_BASE_URL}/auth/validate`,
+        BASE.ACCESSTOKEN_HEADER
+      )
       .then((res) => {
         if (res.data.error) {
-          setAuthState({ ...authState, status: false });
+          dispatch(logout());
         } else {
-          setAuthState({
+          const userData = {
             username: res.data.username,
             id: res.data.id,
-            status: true,
-          });
+            token: res.data.token,
+          };
+          dispatch(login(userData));
         }
       });
   }, []);
   return (
     <div className="App">
-      <Provider store={store}>
-        <AuthContext.Provider value={{ authState, setAuthState }}>
-          <Navbar />
-
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/createpost" element={<CreatePost />} />
-            <Route path="/post/:id" element={<Post />} />
-            <Route path="/profile/:username" element={<Profile />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-          </Routes>
-        </AuthContext.Provider>
-      </Provider>
+      <AuthContext.Provider value={{ authState, setAuthState }}>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+        </Routes>
+      </AuthContext.Provider>
     </div>
   );
 }

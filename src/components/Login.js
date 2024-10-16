@@ -11,8 +11,10 @@ const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
   const navigation = useNavigate();
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,7 +34,6 @@ const Login = () => {
           username: response.data.username,
           id: response.data.id,
           token: response.data.token,
-          status: true,
         };
         dispatch(login(authData));
         navigation("/");
