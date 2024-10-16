@@ -17,7 +17,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import { AuthContext } from "../helpers/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../features/postSlice";
+import { setPosts, updateLikeCount } from "../features/postSlice";
 import BASE from "../config/apiconfig";
 function Home() {
   const [listOfPost, setListOfPost] = useState([]);
@@ -52,11 +52,13 @@ function Home() {
           postId: id,
           username: authState?.username,
         },
-        {
-          headers: { accessToken: localStorage.getItem("accessToken") },
-        }
+        BASE.ACCESSTOKEN_HEADER
       )
-      .then((res) => {});
+      .then((res) => {
+        dispatch(
+          updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
+        );
+      });
   };
   return (
     <div className="post-list-container">

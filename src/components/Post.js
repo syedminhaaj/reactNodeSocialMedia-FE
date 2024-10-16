@@ -19,7 +19,7 @@ import BASE from "../config/apiconfig";
 import { useParams } from "react-router-dom";
 function Post({ post, authState, likedPost }) {
   const { id } = useParams();
-  axios.get(`${BASE.API_DEPLOYED_BASE_URL}/post/byId/${id}`);
+  //axios.get(`${BASE.API_DEPLOYED_BASE_URL}/post/byId/${id}`);
 
   return (
     <div>

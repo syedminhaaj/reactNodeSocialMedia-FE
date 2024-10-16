@@ -9,12 +9,19 @@ export const postSlice = createSlice({
   initialState,
   reducers: {
     setPosts: (state, action) => {
-      console.log("is this set post is called", state.posts);
       state.posts = action.payload;
+    },
+
+    updateLikeCount: (state, action) => {
+      const { postId, likeCount } = action.payload;
+      const postIndex = state.posts.findIndex((post) => post.id === postId);
+      if (postIndex !== -1) {
+        state.posts[postIndex].likeCount = likeCount;
+      }
     },
   },
 });
 
-export const { setPosts } = postSlice.actions;
+export const { setPosts, updateLikeCount } = postSlice.actions;
 
 export default postSlice.reducer;

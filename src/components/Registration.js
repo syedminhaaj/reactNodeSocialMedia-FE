@@ -28,7 +28,6 @@ const Register = () => {
         password: password,
       });
 
-      console.log("res ****", response.data);
       if (response.data.message) {
         setLoading(false);
         setSuccess("Registration successful!");
