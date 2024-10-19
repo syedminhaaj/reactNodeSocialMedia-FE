@@ -19,7 +19,11 @@ const Profile = () => {
           postId: id,
           username: authState?.username,
         },
-        BASE.ACCESSTOKEN_HEADER
+        {
+          headers: {
+            AccessToken: localStorage.getItem("accessToken"),
+          },
+        }
       )
       .then((res) => {});
   };

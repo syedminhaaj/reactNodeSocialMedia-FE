@@ -32,7 +32,7 @@ function Home() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${BASE.API_DEPLOYED_BASE_URL}/post`);
-        dispatch(setPosts(response.data.post));
+        await dispatch(setPosts(response.data.post));
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -58,7 +58,11 @@ function Home() {
             postId: id,
             username: authState?.username,
           },
-          BASE.ACCESSTOKEN_HEADER
+          {
+            headers: {
+              AccessToken: localStorage.getItem("accessToken"),
+            },
+          }
         )
         .then((res) => {
           dispatch(

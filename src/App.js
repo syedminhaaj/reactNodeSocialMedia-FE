@@ -26,10 +26,11 @@ function App() {
   });
   useEffect(() => {
     axios
-      .get(
-        `${BASE.API_DEPLOYED_BASE_URL}/auth/validate`,
-        BASE.ACCESSTOKEN_HEADER
-      )
+      .get(`${BASE.API_DEPLOYED_BASE_URL}/auth/validate`, {
+        headers: {
+          AccessToken: localStorage.getItem("accessToken"),
+        },
+      })
       .then((res) => {
         if (res.data.error) {
           dispatch(logout());
