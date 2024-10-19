@@ -1,0 +1,30 @@
+.container {
+  margin-top: 100px;
+}
+
+.otp-form {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.otp-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.form-control {
+  font-size: 18px;
+  padding: 10px;
+}
+
+.btn-primary {
+  width: 100%;
+  font-size: 18px;
+}
+
+.text-danger {
+  font-size: 14px;
+  margin-top: 10px;
+}

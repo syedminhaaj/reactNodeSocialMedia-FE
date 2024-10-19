@@ -50,7 +50,7 @@ function Home() {
   };
 
   const likedPost = (id) => {
-    if (authState.username !== "") {
+    if (authState.username !== "" && authState.username !== null) {
       axios
         .post(
           `${BASE.API_DEPLOYED_BASE_URL}/likes`,

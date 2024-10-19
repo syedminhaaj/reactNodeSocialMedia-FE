@@ -6,6 +6,7 @@ import Loader from "./Loader";
 
 const Register = () => {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,16 +27,17 @@ const Register = () => {
       const response = await axios.post(`${BASE.API_DEPLOYED_BASE_URL}/auth`, {
         username,
         password: password,
+        email: email,
       });
 
       if (response.data.message) {
         setLoading(false);
         setSuccess("Registration successful!");
         setError("");
-        navigation("/login");
+        navigation("/verifyotp", { state: { email } });
       }
     } catch (err) {
-      setError("Registration failed");
+      setError(err?.response?.data?.message || "Unexpected Error Occured");
       setLoading(false);
       console.error(err);
     } finally {
@@ -61,6 +63,18 @@ const Register = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                autoComplete="off"
+              />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="off"
               />
             </div>
             <div className="form-group">
@@ -71,6 +85,7 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="off"
               />
             </div>
             <div className="form-group">
@@ -81,6 +96,7 @@ const Register = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                autoComplete="off"
               />
             </div>
             <button

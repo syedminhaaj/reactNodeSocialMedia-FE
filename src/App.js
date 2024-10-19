@@ -15,6 +15,7 @@ import axios from "axios";
 import BASE from "./config/apiconfig";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./features/authSlice";
+import VerifyOTPForm from "./components/VerifyOTPForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/verifyotp" element={<VerifyOTPForm />} />
         </Routes>
       </AuthContext.Provider>
     </div>
