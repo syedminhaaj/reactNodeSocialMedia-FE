@@ -27,7 +27,9 @@ const VerifyOTPForm = ({ verifyOtp }) => {
         }
       );
       if (response.status == 200) {
-        navigation("/login");
+        navigation("/login", {
+          state: { successMessage: "OTP Verified successfully!" },
+        });
       } else if (response.status == 400) {
         setError("Invalid otp or OTP expired");
       }

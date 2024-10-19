@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../features/authSlice";
 import Loader from "./Loader";
@@ -14,6 +14,13 @@ const Login = () => {
 
   const navigation = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccess(location.state.successMessage);
+    }
+  }, [location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
