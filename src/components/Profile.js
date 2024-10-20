@@ -7,7 +7,8 @@ import BASE from "../config/apiconfig";
 const Profile = () => {
   const { username } = useParams();
   const authState = useSelector((state) => state.auth);
-  const usernameCheck = username || authState.username;
+  const usernameCheck =
+    (username != undefined && username) || authState.username;
   const postList = useSelector((state) =>
     state.posts.posts.filter((item) => item.username === username)
   );

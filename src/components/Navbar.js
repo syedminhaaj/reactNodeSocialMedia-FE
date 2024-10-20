@@ -1,17 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { logout as logoutAction } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-
+import "./allStyles/Navbar.css";
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const authStoreState = useSelector((state) => state.auth);
+
+  const dropdownRef = useRef < HTMLDivElement > null;
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
   const logout = () => {
     dispatch(logoutAction());
     navigation("/login");
   };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -65,15 +87,21 @@ function Navbar() {
                     Profile
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" onClick={logout}>
-                    Logout
-                  </a>
+                <li className="nav-item dropdown-menu-right">
+                  <span className="nav-link" onClick={toggleDropdown}>
+                    {authStoreState.username} ▼
+                  </span>
+                  {isOpen && (
+                    <div className="nav-link">
+                      <button className="btn btn-link" onClick={logout}>
+                        Logout
+                      </button>
+                    </div>
+                  )}
                 </li>
               </>
             )}
           </ul>
-          <span> {authStoreState.username}</span>
         </div>
       </nav>
     </div>
