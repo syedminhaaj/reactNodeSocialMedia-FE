@@ -2,7 +2,8 @@
   margin-top: 100px;
 }
 
-.otp-form {
+.otp-form,
+.forgot-password {
   padding: 20px;
   border-radius: 8px;
   background-color: #f8f9fa;
@@ -14,13 +15,17 @@
   font-size: 24px;
 }
 
+.forgot-password input {
+  width: 300px;
+}
+
 .form-control {
   font-size: 18px;
   padding: 10px;
 }
 
 .btn-primary {
-  width: 100%;
+  width: 50%;
   font-size: 18px;
 }
 

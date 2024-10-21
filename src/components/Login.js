@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../features/authSlice";
 import Loader from "./Loader";
 import BASE from "../config/apiconfig";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -80,12 +81,13 @@ const Login = () => {
               <label>Password</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control mb-3"
                 value={password}
                 autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <Link to="/forgotpassword">Forgot Password/Username</Link>
             </div>
             <button type="submit" className="btn btn-primary btn-block">
               Login

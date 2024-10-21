@@ -10,7 +10,7 @@ const VerifyOTPForm = ({ verifyOtp }) => {
   const [error, setError] = useState("");
   const navigation = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
+  const { email, page } = location?.state;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.trim() === "" || otp.length !== 6) {
@@ -27,9 +27,15 @@ const VerifyOTPForm = ({ verifyOtp }) => {
         }
       );
       if (response.status == 200) {
-        navigation("/login", {
-          state: { successMessage: "OTP Verified successfully!" },
-        });
+        if (page == "registration") {
+          navigation("/login", {
+            state: { successMessage: "OTP Verified successfully!" },
+          });
+        } else if (page == "resetPassword") {
+          navigation("/resetpassword", {
+            state: { successMessage: "OTP Verified successfully!", email },
+          });
+        }
       } else if (response.status == 400) {
         setError("Invalid otp or OTP expired");
       }

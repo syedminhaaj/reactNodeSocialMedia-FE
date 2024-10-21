@@ -87,12 +87,13 @@ function Navbar() {
                     Profile
                   </Link>
                 </li>
-                <li className="nav-item dropdown-menu-right">
+
+                <li className="nav-item dropdown">
                   <span className="nav-link" onClick={toggleDropdown}>
                     {authStoreState.username} ▼
                   </span>
                   {isOpen && (
-                    <div className="nav-link">
+                    <div className="dropdown-menu dropdown-menu-right show">
                       <button className="btn btn-link" onClick={logout}>
                         Logout
                       </button>

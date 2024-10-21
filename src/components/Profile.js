@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import Post from "./Post";
 import axios from "axios";
 import BASE from "../config/apiconfig";
-
+import { useDispatch } from "react-redux";
+import { updateLikeCount } from "../features/postSlice";
 const Profile = () => {
   const { username } = useParams();
   const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const usernameCheck =
     (username != undefined && username) || authState.username;
   const postList = useSelector((state) =>
@@ -26,7 +29,11 @@ const Profile = () => {
           },
         }
       )
-      .then((res) => {});
+      .then((res) => {
+        dispatch(
+          updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
+        );
+      });
   };
   return (
     <div>

@@ -8,6 +8,7 @@ import Post from "./components/Post";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import Registration from "./components/Registration";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 import { useState, useEffect } from "react";
 import { AuthContext } from "./helpers/AuthContext";
 
@@ -16,6 +17,7 @@ import BASE from "./config/apiconfig";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./features/authSlice";
 import VerifyOTPForm from "./components/VerifyOTPForm";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,7 +57,9 @@ function App() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/verifyotp" element={<VerifyOTPForm />} />
+          <Route path="/resetpassword" element={<ResetPasswordForm />} />
         </Routes>
       </AuthContext.Provider>
     </div>

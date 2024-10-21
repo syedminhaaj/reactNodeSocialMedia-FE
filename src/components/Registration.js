@@ -28,13 +28,14 @@ const Register = () => {
         username,
         password: password,
         email: email,
+        page: "registration",
       });
 
       if (response.data.message) {
         setLoading(false);
         setSuccess("Registration successful!");
         setError("");
-        navigation("/verifyotp", { state: { email } });
+        navigation("/verifyotp", { state: { email, page: "registration" } });
       }
     } catch (err) {
       setError(err?.response?.data?.message || "Unexpected Error Occured");

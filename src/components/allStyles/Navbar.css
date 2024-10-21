@@ -1,5 +1,28 @@
-.dropdown-menu-right {
-  position: absolute;
-  right: 10px;
-  border: 1px solid #ddd;
+@media (min-width: 577px) {
+  .dropdown-menu {
+    position: absolute !important;
+    right: 0;
+    left: auto;
+  }
+
+  .nav-item.dropdown {
+    position: relative;
+  }
+}
+
+@media (max-width: 576px) {
+  .dropdown-menu {
+    position: static !important; /* Ensure it appears below the profile */
+    width: 100%; /* Make it take full width */
+  }
+
+  .dropdown-menu-right {
+    text-align: center; /* Center the logout button */
+  }
+
+  .nav-item.dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
