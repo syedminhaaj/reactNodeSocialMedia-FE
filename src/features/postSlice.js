@@ -13,10 +13,11 @@ export const postSlice = createSlice({
     },
 
     updateLikeCount: (state, action) => {
-      const { postId, likeCount } = action.payload;
+      const { postId, likeCount, likedUsers } = action.payload;
       const postIndex = state.posts.findIndex((post) => post.id === postId);
       if (postIndex !== -1) {
         state.posts[postIndex].likeCount = likeCount;
+        state.posts[postIndex].likedByUsers = likedUsers;
       }
     },
   },

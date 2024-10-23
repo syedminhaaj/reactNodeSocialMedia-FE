@@ -10,7 +10,8 @@ function Navbar() {
   const navigation = useNavigate();
   const authStoreState = useSelector((state) => state.auth);
 
-  const dropdownRef = useRef < HTMLDivElement > null;
+  // const dropdownRef = useRef < HTMLDivElement > null;
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -32,6 +33,7 @@ function Navbar() {
   const logout = () => {
     dispatch(logoutAction());
     navigation("/login");
+    setIsOpen(false);
   };
 
   return (
@@ -88,15 +90,19 @@ function Navbar() {
                   </Link>
                 </li>
 
-                <li className="nav-item dropdown">
+                <li className="nav-item dropdown navbar-nav">
                   <span className="nav-link" onClick={toggleDropdown}>
                     {authStoreState.username} ▼
                   </span>
                   {isOpen && (
-                    <div className="dropdown-menu dropdown-menu-right show">
-                      <button className="btn btn-link" onClick={logout}>
-                        Logout
-                      </button>
+                    <div className="dropdown-menu show" ref={dropdownRef}>
+                      <ul style={{ listStyle: "none" }}>
+                        <li>
+                          <Link to="/login" onClick={logout}>
+                            Logout
+                          </Link>
+                        </li>
+                      </ul>
                     </div>
                   )}
                 </li>

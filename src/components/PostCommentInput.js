@@ -113,9 +113,6 @@ export default function PostCommentInput(props) {
                       </h6>
                       <p className="card-text">{comment.comment_desc}</p>
                     </div>
-                    <small className="text-muted">
-                      {new Date(comment.created_at).toLocaleString()}
-                    </small>
                   </div>
                   {authState.username === comment.username && (
                     <div className="d-flex justify-content-end mt-2">

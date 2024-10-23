@@ -66,7 +66,11 @@ function Home() {
         )
         .then((res) => {
           dispatch(
-            updateLikeCount({ postId: id, likeCount: res.data.totalLikeCount })
+            updateLikeCount({
+              postId: id,
+              likeCount: res.data.totalLikeCount,
+              likedUsers: res.data.likedUsers,
+            })
           );
         });
     } else {
