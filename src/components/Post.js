@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import PostCommentInput from "./PostCommentInput";
 import axios from "axios";
 import BASE from "../config/apiconfig";
-
+import "./allStyles/post.css";
 import { useParams } from "react-router-dom";
 function Post({ post, authState, likedPost }) {
   const { id } = useParams();
@@ -29,6 +29,18 @@ function Post({ post, authState, likedPost }) {
           className="post-card-header"
           titleTypographyProps={{ variant: "h5" }}
         />
+        {post.postImageUrl ? (
+          <>
+            <img
+              src={post.postImageUrl}
+              alt="post image"
+              className=" post-image"
+            />
+          </>
+        ) : (
+          ""
+        )}
+
         <CardContent>
           <Typography variant="body2" className="post-text">
             {post.postText}

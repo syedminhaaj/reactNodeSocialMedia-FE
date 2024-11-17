@@ -1,0 +1,9 @@
+.post-image {
+  width: 250px;
+  height: "auto";
+  margin-right: 10px;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 7px;
+}

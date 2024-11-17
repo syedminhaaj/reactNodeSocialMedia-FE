@@ -10,7 +10,6 @@ function Navbar() {
   const navigation = useNavigate();
   const authStoreState = useSelector((state) => state.auth);
 
-  // const dropdownRef = useRef < HTMLDivElement > null;
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -84,7 +83,7 @@ function Navbar() {
                 <li className="nav-item">
                   <Link
                     className="nav-link"
-                    to={`/profile/${authStoreState.username}`}
+                    to={`/profile/${authStoreState?.username}`}
                   >
                     Profile
                   </Link>

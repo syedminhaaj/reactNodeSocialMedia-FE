@@ -11,9 +11,9 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const usernameCheck =
-    (username != undefined && username) || authState.username;
+    (username !== undefined && username) || authState?.username;
   const postList = useSelector((state) =>
-    state.posts.posts.filter((item) => item.username === username)
+    state.posts.posts?.filter((item) => item.username === username)
   );
   const likedPost = (id) => {
     axios
