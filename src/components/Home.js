@@ -32,7 +32,7 @@ function Home() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${BASE.API_DEPLOYED_BASE_URL}/post`);
-        await dispatch(setPosts(response.data.post));
+        await dispatch(setPosts(response.data.posts));
       } catch (error) {
         console.error("Error fetching posts:", error);
       }

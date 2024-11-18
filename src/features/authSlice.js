@@ -10,6 +10,7 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isAuthenticated = true;
       state.username = action.payload.username;
+      state.email = action.payload.email;
       localStorage.setItem("accessToken", action.payload.token);
     },
     logout: (state) => {

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import BASE from "../config/apiconfig";
-import { auth, db, storage } from "../config/firebase_config";
+import Loader from "./Loader";
+import { storage } from "../config/firebase_config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 function CreatePost() {
@@ -11,6 +12,7 @@ function CreatePost() {
   const [username, setUsername] = useState("");
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
 
   const handleChangeImage = (e) => {
@@ -27,7 +29,7 @@ function CreatePost() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     let imageUrl = null;
     if (image) {
       // Upload image to Firebase Storage
@@ -40,6 +42,7 @@ function CreatePost() {
         // Get the image URL
         imageUrl = await getDownloadURL(storageRef);
       } catch (error) {
+        setLoading(false);
         console.error("Error uploading image:", error);
         setError("Failed to upload image. Please try again.");
         return;
@@ -60,15 +63,17 @@ function CreatePost() {
       );
       setPostTitle("");
       setPostText("");
-
+      setLoading(false);
       navigation("/");
     } catch (error) {
+      setLoading(false);
       console.error("Error submitting the post:", error);
     }
   };
   return (
     <div>
       <div className="container mt-5">
+        {loading && <Loader />}
         <h2 className="mb-4">Create a New Post</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -142,7 +147,7 @@ function CreatePost() {
             {error && <p style={{ color: "red" }}>{error}</p>}
           </div>
 
-          <button type="submit" className="btn btn-primary ms-5">
+          <button type="submit" className="btn btn-primary w-25">
             Submit
           </button>
           <button
@@ -150,7 +155,7 @@ function CreatePost() {
             onClick={() => {
               navigation("/");
             }}
-            className="btn btn-danger ms-5"
+            className="btn btn-danger ms-5 w-25"
           >
             Cancel
           </button>

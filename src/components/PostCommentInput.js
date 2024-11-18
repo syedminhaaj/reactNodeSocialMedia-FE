@@ -106,12 +106,17 @@ export default function PostCommentInput(props) {
             CommentDataOf?.map((comment, index) => (
               <div key={index} className="card mb-3 shadow-sm">
                 <div className="card-body">
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex">
+                    <img
+                      src={comment.profilePicUrl}
+                      alt="Profile"
+                      className="profile-img-circle mr-2"
+                    />
                     <div>
                       <h6 className="card-subtitle mb-2 text-muted">
                         <b>{comment.username}</b>
                       </h6>
-                      <p className="card-text">{comment.comment_desc}</p>
+                      <p className="card-text ml-2">{comment.comment_desc}</p>
                     </div>
                   </div>
                   {authState.username === comment.username && (

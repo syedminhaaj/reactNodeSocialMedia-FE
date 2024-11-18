@@ -68,6 +68,13 @@ function Post({ post, authState, likedPost }) {
             className="action-btn"
           ></Button>
           <Typography variant="body2" className="username">
+            {post && post.profilePicUrl && (
+              <img
+                src={post.profilePicUrl}
+                alt="Profile"
+                className="profile-img-circle mr-2"
+              />
+            )}
             <Link to={`/profile/${post.username}`}>{post.username}</Link>
           </Typography>
         </div>

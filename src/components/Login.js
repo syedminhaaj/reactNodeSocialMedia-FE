@@ -42,7 +42,9 @@ const Login = () => {
           username: response.data.username,
           id: response.data.id,
           token: response.data.token,
+          email: response.data.email,
         };
+
         dispatch(login(authData));
         navigation("/");
         setError("");

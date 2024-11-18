@@ -1,0 +1,35 @@
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-footer button {
+  min-width: 100px;
+}
+
+.modal-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  outline: none;
+}
+.edit-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #007bff;
+}
