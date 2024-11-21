@@ -18,12 +18,11 @@ const Profile = () => {
   const { username } = useParams();
   const authState = useSelector((state) => state.auth);
   const [image, setImage] = useState(null);
-  const [usernameInput, setUsernameInput] = useState(username || "");
+
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
   const usernameCheck =
     (username !== undefined && username) || authState?.username;
   const postList = useSelector((state) =>
@@ -56,7 +55,7 @@ const Profile = () => {
         imageUrl = await getDownloadURL(storageRef);
         const response = await axios
           .put(`${BASE.API_DEPLOYED_BASE_URL}/profile`, {
-            newUsername: usernameInput,
+            newUsername: usernameCheck,
             email: authState.email,
             profilePicUrl: imageUrl,
           })
@@ -134,17 +133,24 @@ const Profile = () => {
       {/* Modal for editing profile */}
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-popup">
+          {loading && <Loader />}
           <Typography variant="h6" component="h2" mb={2}>
             Edit Profile
           </Typography>
           <form>
-            <TextField
+            {/* <TextField
               fullWidth
               label="Username"
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
+              value={usernameCheck}
+              readOnly
               variant="outlined"
               margin="normal"
+            /> */}
+            <input
+              className="form-control f-disabled"
+              id="username"
+              value={username}
+              readOnly
             />
             <TextField
               fullWidth

@@ -51,3 +51,8 @@
   object-fit: cover;
   margin-right: 10px;
 }
+
+.f-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}

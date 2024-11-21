@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import BASE from "../config/apiconfig";
@@ -9,12 +10,12 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 function CreatePost() {
   const [postTitle, setPostTitle] = useState("");
   const [postText, setPostText] = useState("");
-  const [username, setUsername] = useState("");
+
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
-
+  const username = useSelector((state) => state.auth.username);
   const handleChangeImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -81,16 +82,13 @@ function CreatePost() {
               htmlFor="postText"
               className="form-label fw-bold d-flex justify-content-start"
             >
-              Name
+              Username
             </label>
             <input
-              className="form-control"
+              className="form-control f-disabled "
               id="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="username"
-              autoComplete="off"
-              required
+              readOnly
             />
           </div>
           <div className="mb-3">
