@@ -28,6 +28,14 @@ function Home() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
   const navigate = useNavigate();
+
+  const searchQuery = useSelector((state) => state.posts.searchQuery);
+
+  const filteredPosts = posts.filter((post) =>
+    Object.values(post).some((value) =>
+      String(value).toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -79,7 +87,7 @@ function Home() {
   };
   return (
     <div className="post-list-container">
-      {posts?.map((val, key) => (
+      {filteredPosts?.map((val, key) => (
         <Post
           post={val}
           authState={authState.isAuthenticated}

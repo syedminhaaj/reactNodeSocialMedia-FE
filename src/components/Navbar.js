@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { logout as logoutAction } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../features/postSlice";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import "./allStyles/Navbar.css";
@@ -8,6 +9,8 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigate();
+  const [searchText, setSearchText] = useState("");
+
   const authStoreState = useSelector((state) => state.auth);
 
   const dropdownRef = useRef(null);
@@ -23,6 +26,12 @@ function Navbar() {
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchText(query);
+    dispatch(setSearchQuery(query)); // Dispatch the search query to Redux
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -104,6 +113,16 @@ function Navbar() {
                       </ul>
                     </div>
                   )}
+                </li>
+                <li>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search posts..."
+                    value={searchText}
+                    onChange={handleSearch}
+                    style={{ maxWidth: "300px", marginLeft: "20px" }}
+                  />
                 </li>
               </>
             )}

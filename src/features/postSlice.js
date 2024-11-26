@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  searchQuery: "",
 };
 
 export const postSlice = createSlice({
@@ -11,7 +12,9 @@ export const postSlice = createSlice({
     setPosts: (state, action) => {
       state.posts = action.payload;
     },
-
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
     updateLikeCount: (state, action) => {
       const { postId, likeCount, likedUsers } = action.payload;
       const postIndex = state.posts.findIndex((post) => post.id === postId);
@@ -23,6 +26,6 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setPosts, updateLikeCount } = postSlice.actions;
+export const { setPosts, updateLikeCount, setSearchQuery } = postSlice.actions;
 
 export default postSlice.reducer;

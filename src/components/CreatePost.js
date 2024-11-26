@@ -85,7 +85,7 @@ function CreatePost() {
               Username
             </label>
             <input
-              className="form-control f-disabled "
+              className="form-control f-disabled"
               id="username"
               value={username}
               readOnly
