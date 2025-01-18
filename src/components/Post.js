@@ -48,7 +48,11 @@ function Post({ post, authState, likedPost }) {
         </CardContent>
         <div className="post-card-footer">
           <Tooltip
-            title={post.likedByUsers?.split(",").join(", ") || "No likes yet"}
+            title={
+              Array.isArray(post.likedByUsers)
+                ? post.likedByUsers.join(", ")
+                : "No likes yet"
+            }
             arrow
             placement="top"
           >

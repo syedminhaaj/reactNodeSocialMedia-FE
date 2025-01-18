@@ -89,7 +89,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <Link to="/forgotpassword">Forgot Password/Username</Link>
+              {/* <Link to="/forgotpassword">Forgot Password/Username</Link> */}
             </div>
             <button type="submit" className="btn btn-primary btn-block">
               Login
